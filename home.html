@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>home</title>
+</head>
+<body>
+  <div class="k">
+  <a href="home.html" id="logo">HOME</a>
+  <a href="background.html" id="logo">BACKGROUND</a>
+</div>
+  <main>
+    <div id="userDataDisplay"></div>
+  </main>
+  <button class="create-button" onclick="redirectToCreatePage()">CREATE YOUR OWN BUBBLE</button>
+  
+  <script>
+    function redirectToCreatePage() {
+      window.location.href = 'create.html';
+    }
+
+
+    
+    var userData = JSON.parse(sessionStorage.getItem("userData")) || [];
+
+   //初始化
+    userData.push(60);
+    userData.push(50);
+    userData.push(40);
+    userData.push(30);
+    userData.push(20);
+    userData.push(10);
+
+    userData.reverse();
+    
+
+
+
+var userDataDisplay = document.getElementById("userDataDisplay");
+
+function getRandomPositionAndSize() {
+    var size = Math.floor(Math.random() * 100) + 100; 
+    var xPos = Math.floor(Math.random() * (window.innerWidth - size));
+    var yPos = Math.floor(Math.random() * (window.innerHeight - size))+60;
+    return { x: xPos, y: yPos, size: size };
+}
+
+userData.forEach(function(data, index) {
+    var circle = document.createElement("div");
+    circle.className = "circle";
+    
+    var positionAndSize = getRandomPositionAndSize();
+    circle.style.width = positionAndSize.size + "px";
+    circle.style.height = positionAndSize.size + "px";
+    circle.style.left = positionAndSize.x + "px";
+    circle.style.top = positionAndSize.y + "px";
+
+    
+    var overlapping = false;
+    for (var i = 0; i < userDataDisplay.children.length; i++) {
+        var existingCircle = userDataDisplay.children[i];
+        if (
+            positionAndSize.x < existingCircle.offsetLeft + existingCircle.offsetWidth &&
+            positionAndSize.x + positionAndSize.size > existingCircle.offsetLeft &&
+            positionAndSize.y < existingCircle.offsetTop + existingCircle.offsetHeight &&
+            positionAndSize.y + positionAndSize.size > existingCircle.offsetTop
+        ) {
+            overlapping = true;
+            break;
+        }
+    }
+
+    
+    if (overlapping) {
+        positionAndSize = getRandomPositionAndSize();
+        circle.style.width = positionAndSize.size + "px";
+        circle.style.height = positionAndSize.size + "px";
+        circle.style.left = positionAndSize.x + "px";
+        circle.style.top = positionAndSize.y + "px";
+    }
+
+    
+    var paragraph = document.createElement("p");
+    paragraph.innerText = (index + 1);
+    circle.appendChild(paragraph);
+
+    
+    circle.onclick = function() {
+        sessionStorage.setItem("selectedUserData", data);
+        window.location.href = "viewContent.html";
+    };
+
+    userDataDisplay.appendChild(circle);
+});
+
+  </script>
+  
+</body>
+</html>
