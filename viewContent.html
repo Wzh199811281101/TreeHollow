@@ -86,59 +86,67 @@
 
     <script>
 
-                String.prototype.hashCode = function() {
-            var hash = 0, i, chr;
-            if (this.length === 0) return hash;
-            for (i = 0; i < this.length; i++) {
-                chr   = this.charCodeAt(i);
-                hash  = ((hash << 5) - hash) + chr;
-                hash |= 0;
-            }
-            return hash;
-        };
+// String Prototype Extension (hashCode function)
 
-        var selectedUserData = sessionStorage.getItem("selectedUserData");
+String.prototype.hashCode = function() {
+    let hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0;
+    }
+    return hash;
+};
 
-        var contentDisplay = document.getElementById("contentDisplay");
-        contentDisplay.innerHTML = selectedUserData;
+// Retrieve Selected User Data
+const selectedUserData = sessionStorage.getItem("selectedUserData");
 
-        
-        var contentId = "content_" + selectedUserData.hashCode();
+// Display Selected User Data
+const contentDisplay = document.getElementById("contentDisplay");
+contentDisplay.innerHTML = selectedUserData;
 
-        var comments = JSON.parse(localStorage.getItem(contentId)) || [];
+// Generate Content ID and Retrieve Comments
+const contentId = "content_" + selectedUserData.hashCode();
+const comments = JSON.parse(localStorage.getItem(contentId)) || [];
 
+// Render Initial Comments
+renderComments();
+
+// Add Comment Function
+function addComment() {
+    const commentInput = document.getElementById("commentInput");
+    const commentContent = commentInput.value;
+
+    if (commentContent.trim() !== "") {
+        // Update Content ID
+        const contentId = "content_" + selectedUserData.hashCode();
+
+        // Push new comment to comments array
+        comments.push(commentContent);
+
+        // Clear comment input field
+        commentInput.value = "";
+
+        // Update local storage with new comments
+        localStorage.setItem(contentId, JSON.stringify(comments));
+
+        // Render comments
         renderComments();
+    }
+}
 
-        function addComment() {
-            var commentInput = document.getElementById("commentInput");
-            var commentContent = commentInput.value;
+// Render Comments Function
+function renderComments() {
+    const commentList = document.getElementById("commentList");
+    commentList.innerHTML = "<h3>Comments:</h3>";
 
-            if (commentContent.trim() !== "") {
-                
-                var contentId = "content_" + selectedUserData.hashCode();
-
-                comments.push(commentContent);
-
-                commentInput.value = "";
-
-
-                localStorage.setItem(contentId, JSON.stringify(comments));
-
-                renderComments();
-            }
-        }
-
-        function renderComments() {
-            var commentList = document.getElementById("commentList");
-            commentList.innerHTML = "<h3>Comments:</h3>";
-
-            comments.forEach(function(comment) {
-                var commentItem = document.createElement("div");
-                commentItem.innerText = comment;
-                commentList.appendChild(commentItem);
-            });
-        }
-
+    comments.forEach(function(comment) {
+        const commentItem = document.createElement("div");
+        commentItem.innerText = comment;
+        commentList.appendChild(commentItem);
+    });
+}
 
     </script>
 </body>
