@@ -150,6 +150,9 @@ body {
     margin-top: 100px;
     text-align: center;
     font-size: large;
+    text-align: center;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 /* Media Query for smaller screens */
