@@ -24,18 +24,18 @@
 
         <script>
   function saveData() {
-            // 获取输入框的值
-            var inputData = document.getElementById("inputData").value;
+    // 获取输入框的值
+    const inputData = document.getElementById("inputData").value;
 
-            // 使用 sessionStorage 存储数据
-            var existingData = JSON.parse(sessionStorage.getItem("userData")) || [];
-            existingData.push(inputData);
-            sessionStorage.setItem("userData", JSON.stringify(existingData));
+    // 使用 sessionStorage 存储数据
+    const existingData = JSON.parse(sessionStorage.getItem("userData")) || [];
+    existingData.push(inputData);
+    sessionStorage.setItem("userData", JSON.stringify(existingData));
 
-            // 清空输入框
-            document.getElementById("inputData").value = "";
-            window.location.href = "home.html";
-        }
+    // 清空输入框
+    document.getElementById("inputData").value = "";
+    window.location.href = "home.html";
+}
     </script>
 </body>
 </html>
