@@ -163,6 +163,32 @@ body {
     }
 }
 
+/* about*/
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+main {
+    text-align: auto;
+}
+
+h1 {
+    margin: 40px 40px; /* Increased margin for more space between h1 elements */
+    font-size: 2em;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+a:hover {
+    color: #007BFF;
+}
 
 
 
