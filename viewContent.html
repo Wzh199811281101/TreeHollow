@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>viewContent</title>
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #9dd9f3;
+
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        #contentDisplay {
+            width: 400px;
+            height: 200px;
+            border-radius: 20px;
+            background-color: #ffd1dc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #commentInput {
+            margin-top: 20px;
+            padding: 10px;
+            width: 300px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #ffd1dc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #commentList {
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        #commentList h3 {
+            color: #333;
+        }
+
+        #commentList div {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="k">
+    <a href="index.html" id="logo">HOME</a>
+  <a href="background.html" id="logo">BACKGROUND</a></div>
+  <a href="about.html" id="logo">ABOUT</a>
+    <p style="text-align: center;font-size: 20px;">Feel free to make any comments! Everything is anonymous.</p>
+<div style="justify-content: center;align-items: center;width: 100%;display: flex;">
+    <div id="contentDisplay" style="text-align: center;"></div></div>
+
+    <div style="margin-bottom: 50px; text-align: center;">
+        <label for="commentInput"></label>
+        <input type="text" id="commentInput" placeholder="Type your comment here...">
+        <button onclick="addComment()">Comment</button>
+    </div>
+
+    <div id="commentList"></div>
+
+
+<script>
+
+// String Prototype Extension (hashCode function)  create a relatively unique identifier for the content
+
+String.prototype.hashCode = function() {
+    let hash = 0, i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0;
+    }
+    return hash;
+};
+
+// Retrieve Selected User Data
+const selectedUserData = sessionStorage.getItem("selectedUserData");
+
+// Display Selected User Data
+const contentDisplay = document.getElementById("contentDisplay");
+contentDisplay.innerHTML = selectedUserData;
+
+// Generate Content ID and Retrieve Comments
+const contentId = "content_" + selectedUserData.hashCode();
+const comments = JSON.parse(localStorage.getItem(contentId)) || [];
+
+// Render Initial Comments
+renderComments();
+
+// Add Comment Function
+function addComment() {
+    const commentInput = document.getElementById("commentInput");
+    const commentContent = commentInput.value;
+
+    if (commentContent.trim() !== "") {
+        // Update Content ID
+        const contentId = "content_" + selectedUserData.hashCode();
+
+        // Push new comment to comments array
+        comments.push(commentContent);
+
+        // Clear comment input field
+        commentInput.value = "";
+
+        // Update local storage with new comments
+        localStorage.setItem(contentId, JSON.stringify(comments));
+
+        // Render comments
+        renderComments();
+    }
+}
+
+// Render Comments Function
+function renderComments() {
+    const commentList = document.getElementById("commentList");
+    commentList.innerHTML = "<h3>Comments:</h3>";
+
+    comments.forEach(function(comment) {
+        const commentItem = document.createElement("div");
+        commentItem.innerText = comment;
+        commentList.appendChild(commentItem);
+    });
+}
+
+    </script>
+</body>
+
+</html>

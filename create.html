@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <title>create</title>
+</head>
+<body>
+    <div class="k">
+    <a href="index.html" id="logo">HOME</a>
+    <a href="background.html" id="logo">BACKGROUND</a></div>
+    <a href="about.html" id="logo">ABOUT</a>
+    <main>
+        <div class="box">
+            <p>Create Your Bubble</p>
+            <label for="inputData"></label>
+            <input type="text" id="inputData">
+    <div>
+            <button class="c-button" onclick="saveData()">GENERATE BUBBLE</button></div>
+            <!-- <input  id="bubbleText" /> -->
+            <!-- <div><button class="c-button" onclick="generateBubble()">GENERATE BUBBLE</button></div> -->
+        </div>
+    </main>
+
+        <script>
+  function saveData() {
+    // 获取输入框的值
+    const inputData = document.getElementById("inputData").value;
+
+    // 使用 sessionStorage 存储数据
+    const existingData = JSON.parse(sessionStorage.getItem("userData")) || [];
+    existingData.push(inputData);
+    sessionStorage.setItem("userData", JSON.stringify(existingData));
+
+    // 清空输入框
+    document.getElementById("inputData").value = "";
+    window.location.href = "index.html";
+}
+    </script>
+</body>
+</html>
+
